@@ -145,7 +145,7 @@ object ItemUtil {
   def makeBlock(mod: TAwesomeSauceMod,
     unlocalizedName: String, mat: Material,
     te: () => TileEntity): Block = {
-    GameRegistry.registerTileEntity(te().getClass(), mod.getTextureDomain + ":" + unlocalizedName);
+    GameRegistry.registerTileEntity(te().getClass(), mod.getTextureDomain + "." + unlocalizedName);
     return makeBlock(mod, unlocalizedName, new BlockSimpleContainer(mat, te))
   }
 
@@ -163,7 +163,7 @@ object ItemUtil {
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
     block: Block,
     oredict: Boolean): Block = {
-    block.setBlockName(mod.getTextureDomain concat ":" concat unlocalizedName)
+    block.setBlockName(mod.getTextureDomain concat "." concat unlocalizedName)
       .setBlockTextureName(mod.getTextureDomain concat ":" concat unlocalizedName)
       .setCreativeTab(mod.tab)
     GameRegistry.registerBlock(block, unlocalizedName)
@@ -175,7 +175,7 @@ object ItemUtil {
     item: Item,
     oredict: Boolean): Item = {
     item
-      .setUnlocalizedName(mod.getTextureDomain + ":" + unlocalizedName)
+      .setUnlocalizedName(mod.getTextureDomain + "." + unlocalizedName)
       .setTextureName(
         mod.getTextureDomain + ":" + unlocalizedName)
       .setCreativeTab(mod.tab);
