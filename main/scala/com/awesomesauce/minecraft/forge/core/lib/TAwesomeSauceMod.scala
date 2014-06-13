@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLInitializationEvent
 import cpw.mods.fml.common.event.FMLPostInitializationEvent
 import scala.collection.mutable.ListBuffer
+import net.minecraftforge.common.config.Configuration
 
 /*
 @EventHandler
@@ -41,11 +42,14 @@ trait TAwesomeSauceMod {
   def noTab = hasTab = false
   var hasTab = true
   var tab: CreativeTabs = null
+  var config: Configuration = null
   def init()
   def preInit()
   def postInit()
 
   def awesomesaucepreinit(e: FMLPreInitializationEvent) = {
+    config = new Configuration(e.getSuggestedConfigurationFile())
+    config.load()
     if (hasTab)
       tab = new AwesomeSauceTab(getModID, getTabIconItem)
     preInit()
@@ -56,5 +60,6 @@ trait TAwesomeSauceMod {
   }
 
   def awesomesaucepostinit(e: FMLPostInitializationEvent) = {
+    config.save()
   }
 }

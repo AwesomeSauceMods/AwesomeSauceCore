@@ -6,7 +6,6 @@ import com.awesomesauce.minecraft.forge.core.lib.item.BlockSimpleContainer
 import com.awesomesauce.minecraft.forge.core.lib.item.ItemDescription
 import com.awesomesauce.minecraft.forge.core.lib.item.ItemDescriptionImpl
 import com.awesomesauce.minecraft.forge.core.lib.util.vec.SidePositionImpl
-
 import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
@@ -24,6 +23,8 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
 import net.minecraftforge.oredict.OreDictionary
+import net.minecraft.init.Items
+import net.minecraft.item.crafting.IRecipe
 
 object WorldUtil {
 
@@ -84,7 +85,7 @@ object InventoryUtil {
   def scanInventoryForItems(inventory: IInventory, stack: ItemStack): Boolean = scanInventoryForItems(new InventoryWrapper(inventory), stack)
   def scanInventoryForItems(inventory: ReadOnlyInventory, stack: ItemStack): Boolean = {
     for (i <- Range(0, inventory.getSizeInventory)) {
-      if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).isItemEqual(stack))
+      if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).isItemEqual(stack) && inventory.getStackInSlot(i).stackSize >= stack.stackSize)
         return true
     }
     return false
@@ -100,6 +101,8 @@ object InventoryUtil {
           if (inventory.getStackInSlot(i).stackSize + itemStack.stackSize <= inventory.getStackInSlot(i).getMaxStackSize()) {
             inventory.getStackInSlot(i).stackSize += itemStack.stackSize;
             return true
+          } else if (inventory.getStackInSlot(i).stackSize == inventory.getStackInSlot(i).getMaxStackSize()) {
+            
           } else {
             val stackSize = inventory.getStackInSlot(i).stackSize + itemStack.stackSize - inventory.getStackInSlot(i).getMaxStackSize()
             inventory.getStackInSlot(i).stackSize = inventory.getStackInSlot(i).getMaxStackSize()
@@ -132,7 +135,19 @@ object InventoryUtil {
     }
 }
 object ItemUtil {
-
+  def addSmelting(mod:TAwesomeSauceMod, item:ItemStack, result:ItemStack, exp:Float) = {
+    if (mod.config.get("Disable Recipes", result.getUnlocalizedName(), true).getBoolean(true))
+    {
+    	GameRegistry.addSmelting(item, result, exp)
+    }
+  }
+  def addRecipe(mod:TAwesomeSauceMod, recipe:IRecipe) =
+  {
+    if (mod.config.get("Disable Recipes", recipe.getRecipeOutput().getUnlocalizedName(), true).getBoolean(true))
+    {
+      GameRegistry.addRecipe(recipe)
+    }
+  }
   def makeItem(mod: TAwesomeSauceMod,
     unlocalizedName: String): ItemDescription = {
     makeItem(mod, unlocalizedName, false)
@@ -163,6 +178,8 @@ object ItemUtil {
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
     block: Block,
     oredict: Boolean): Block = {
+    if (mod.config.get("Disable Item", unlocalizedName, true).getBoolean(true))
+    {
     block.setBlockName(mod.getTextureDomain concat "." concat unlocalizedName)
       .setBlockTextureName(mod.getTextureDomain concat ":" concat unlocalizedName)
       .setCreativeTab(mod.tab)
@@ -170,10 +187,14 @@ object ItemUtil {
     if (oredict)
       OreDictionary.registerOre(unlocalizedName, block)
     return block;
+    }
+    return Blocks.iron_block
   }
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String,
     item: Item,
     oredict: Boolean): Item = {
+    if (mod.config.get("Disable Item", unlocalizedName, true).getBoolean(true))
+    {
     item
       .setUnlocalizedName(mod.getTextureDomain + "." + unlocalizedName)
       .setTextureName(
@@ -183,6 +204,8 @@ object ItemUtil {
     if (oredict)
       OreDictionary.registerOre(unlocalizedName, item);
     return item;
+    }
+    return Items.iron_ingot
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block): Block = {

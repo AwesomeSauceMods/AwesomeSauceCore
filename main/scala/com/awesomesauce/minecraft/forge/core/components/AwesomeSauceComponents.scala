@@ -20,6 +20,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe
 
 @Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala")
 object AwesomeSauceComponents extends TAwesomeSauceMod {
+  var grinderRecipes : scala.collection.mutable.Map[String, ItemStack] = null
   @EventHandler
   def aspri(e: FMLPreInitializationEvent) = super.awesomesaucepreinit(e)
   @EventHandler
@@ -46,7 +47,15 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   var nuggetAwesomeite: Item = null
   var blockAwesomeite: Block = null
   override def preInit = {}
-  override def postInit = {}
+  override def postInit = {grinderRecipes = scala.collection.mutable.Map(
+      "oreIron" -> new ItemStack(AwesomeSauceComponents.dustIron, 2),
+      "oreGold" -> new ItemStack(AwesomeSauceComponents.dustGold, 2),
+      "oreAluminum" -> new ItemStack(AwesomeSauceComponents.dustAluminum, 2),
+      "oreTin" -> new ItemStack(AwesomeSauceComponents.dustTin, 2),
+      "oreCopper" -> new ItemStack(AwesomeSauceComponents.dustCopper, 2),
+      "oreSilver" -> new ItemStack(AwesomeSauceComponents.dustSilver, 2),
+      "wheat" -> new ItemStack(AwesomeSauceComponents.flour))
+  }
   override def init() = {
     ingotAluminum = ItemUtil.makeItem(this, "ingotAluminum", true).addDescriptionLine(
       "awesomesaucecomponents.aluminum.desc")
@@ -68,58 +77,58 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
 
     dustCopper = ItemUtil.makeItem(this, "dustCopper", true)
       .addDescriptionLine("awesomesaucecomponents.copper.desc")
-    GameRegistry.addSmelting(dustCopper, new ItemStack(ingotCopper),
+    ItemUtil.addSmelting(this, new ItemStack(dustCopper), new ItemStack(ingotCopper),
       2F)
 
     dustSilver = ItemUtil.makeItem(this, "dustSilver", true)
       .addDescriptionLine("awesomesaucecomponents.silver.desc")
-    GameRegistry.addSmelting(dustSilver, new ItemStack(ingotSilver),
+    ItemUtil.addSmelting(this, new ItemStack(dustSilver), new ItemStack(ingotSilver),
       2F)
     dustTin = ItemUtil.makeItem(this, "dustTin", true)
       .addDescriptionLine("awesomesaucecomponents.tin.desc")
-    GameRegistry.addSmelting(dustTin, new ItemStack(ingotTin), 2F)
+    ItemUtil.addSmelting(this, new ItemStack(dustTin), new ItemStack(ingotTin), 2F)
     dustAwesomeite = ItemUtil.makeItem(this, "dustAwesomeite",
       true).addDescriptionLine(
         "awesomesaucecomponents.awesomeite.desc")
-    GameRegistry.addSmelting(dustAwesomeite, new ItemStack(
+    ItemUtil.addSmelting(this, new ItemStack(dustAwesomeite), new ItemStack(
       ingotAwesomeite), 2F)
 
     dustAluminum = ItemUtil.makeItem(this, "dustAluminum", true)
       .addDescriptionLine(
         "awesomesaucecomponents.aluminum.desc")
-    GameRegistry.addSmelting(dustAluminum, new ItemStack(ingotAluminum), 2F)
+    ItemUtil.addSmelting(this, new ItemStack(dustAluminum), new ItemStack(ingotAluminum), 2F)
 
     dustBronze = ItemUtil.makeItem(this, "dustBronze", true)
       .addDescriptionLine("awesomesaucecomponents.bronze.desc")
-    GameRegistry.addSmelting(dustBronze, new ItemStack(ingotBronze), 2F)
+    ItemUtil.addSmelting(this, new ItemStack(dustBronze), new ItemStack(ingotBronze), 2F)
 
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(
       dustAwesomeite, 4), "dustBronze", "dustSilver", "dustAluminum",
       "dustGold", "dustIron", Items.redstone, Items.redstone,
       Items.redstone, Items.redstone))
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dustBronze,
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustBronze,
       2), "dustCopper", "dustCopper", "dustTin"))
     dustIron = ItemUtil.makeItem(this, "dustIron", true)
       .addDescriptionLine("awesomesaucecomponents.iron.desc")
-    GameRegistry.addSmelting(dustIron,
+    ItemUtil.addSmelting(this, new ItemStack(dustIron),
       new ItemStack(Items.iron_ingot), 2F)
     dustGold = ItemUtil.makeItem(this, "dustGold", true)
       .addDescriptionLine("awesomesaucecomponents.gold.desc")
-    GameRegistry.addSmelting(dustGold,
+    ItemUtil.addSmelting(this, new ItemStack(dustGold),
       new ItemStack(Items.gold_ingot), 2F)
     flour = ItemUtil.makeItem(this, "flour", true)
       .addDescriptionLine("awesomesaucecomponents.flour.desc").addUsage("Smelting", "Smelted into bread.")
-    GameRegistry.addSmelting(flour, new ItemStack(Items.bread), 2.0F)
+    ItemUtil.addSmelting(this, new ItemStack(flour), new ItemStack(Items.bread), 2.0F)
     OreDictionary.registerOre("flour", flour)
     OreDictionary.registerOre("dustWheat", flour)
     OreDictionary.registerOre("wheat", Items.wheat)
     nuggetAwesomeite = ItemUtil.makeItem(this, "nuggetAwesomeite", true)
       .addDescriptionLine("awesomesaucecomponents.awesomeite.desc")
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(nuggetAwesomeite, 9), ingotAwesomeite))
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ingotAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), nuggetAwesomeite))
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetAwesomeite, 9), ingotAwesomeite))
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), nuggetAwesomeite))
     blockAwesomeite = ItemUtil.makeBlock(this, "blockAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ingotAwesomeite, 9), blockAwesomeite))
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), ingotAwesomeite))
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotAwesomeite, 9), blockAwesomeite))
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), ingotAwesomeite))
   }
   def getTabIconItem: () => Item = () => ingotAwesomeite
   def getTextureDomain: String = "awesomesaucecomponents"
