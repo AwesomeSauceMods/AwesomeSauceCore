@@ -1,13 +1,9 @@
 package com.awesomesauce.minecraft.forge.core.lib
 
-import cpw.mods.fml.common.registry.LanguageRegistry
-import net.minecraft.item.Item
+import cpw.mods.fml.common.ModMetadata
+import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import net.minecraft.creativetab.CreativeTabs
-import cpw.mods.fml.common.event.FMLPreInitializationEvent
-import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.FMLInitializationEvent
-import cpw.mods.fml.common.event.FMLPostInitializationEvent
-import scala.collection.mutable.ListBuffer
+import net.minecraft.item.Item
 import net.minecraftforge.common.config.Configuration
 
 /*
@@ -20,10 +16,13 @@ def aspoi(e: FMLPostInitializationEvent) = super.awesomesaucepostinit(e)
  */
 trait TAwesomeSauceMod {
   def aspri(e: FMLPreInitializationEvent)
+
   def asi(e: FMLInitializationEvent)
+
   def aspoi(e: FMLPostInitializationEvent)
+
   /**
-   * @return The {@link Item} with the icon that you wish to represent
+   * @return The { @link Item} with the icon that you wish to represent
    *         this mod.
    */
   def getTabIconItem: () => Item
@@ -39,12 +38,26 @@ trait TAwesomeSauceMod {
   def getModName: String
 
   def getModID: String
+
+  def getAuthor: String = "gjgfuj"
+
+  def getDescription = "An Awesome Sauce Mod."
+
+  def getVersion = "0.1.0"
+
+  def getCredits = "Created by gjgfuj, with help from #minecraftforge"
+
   def noTab = hasTab = false
+
   var hasTab = true
   var tab: CreativeTabs = null
   var config: Configuration = null
+  var metadata: ModMetadata = null
+
   def init()
+
   def preInit()
+
   def postInit()
 
   def awesomesaucepreinit(e: FMLPreInitializationEvent) = {
@@ -52,9 +65,16 @@ trait TAwesomeSauceMod {
     config.load()
     if (hasTab)
       tab = new AwesomeSauceTab(getModID, getTabIconItem)
+    metadata = e.getModMetadata()
+    metadata.modId = getModID
+    metadata.name = getModName
+    metadata.version = getVersion
+    metadata.authorList.add(getAuthor())
+    metadata.description = getDescription
+    metadata.credits = getCredits
     preInit()
   }
-  
+
   def awesomesauceinit(e: FMLInitializationEvent) = {
     init()
   }
