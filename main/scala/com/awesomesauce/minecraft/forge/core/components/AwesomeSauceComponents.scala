@@ -4,29 +4,27 @@ import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
 import com.awesomesauce.minecraft.forge.core.lib.util.ItemUtil
 import cpw.mods.fml.common.Mod
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.FMLInitializationEvent
-import cpw.mods.fml.common.event.FMLPostInitializationEvent
-import cpw.mods.fml.common.event.FMLPreInitializationEvent
-import cpw.mods.fml.common.registry.GameRegistry
+import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import net.minecraft.block.Block
+import net.minecraft.block.material.Material
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.init.Items
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraftforge.oredict.OreDictionary
-import net.minecraftforge.oredict.ShapelessOreRecipe
-import net.minecraft.block.material.Material
-import net.minecraftforge.oredict.ShapedOreRecipe
+import net.minecraft.item.{Item, ItemStack}
+import net.minecraftforge.oredict.{OreDictionary, ShapedOreRecipe, ShapelessOreRecipe}
 
 @Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala")
 object AwesomeSauceComponents extends TAwesomeSauceMod {
-  var grinderRecipes : scala.collection.mutable.Map[String, ItemStack] = null
+  var grinderRecipes: scala.collection.mutable.Map[String, ItemStack] = null
+
   @EventHandler
   def aspri(e: FMLPreInitializationEvent) = super.awesomesaucepreinit(e)
+
   @EventHandler
   def asi(e: FMLInitializationEvent) = super.awesomesauceinit(e)
+
   @EventHandler
   def aspoi(e: FMLPostInitializationEvent) = super.awesomesaucepostinit(e)
+
   noTab
   tab = CreativeTabs.tabMaterials
   var ingotAluminum: Item = null
@@ -46,8 +44,11 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   var flour: Item = null
   var nuggetAwesomeite: Item = null
   var blockAwesomeite: Block = null
+
   override def preInit = {}
-  override def postInit = {grinderRecipes = scala.collection.mutable.Map(
+
+  override def postInit = {
+    grinderRecipes = scala.collection.mutable.Map(
       "oreIron" -> new ItemStack(AwesomeSauceComponents.dustIron, 2),
       "oreGold" -> new ItemStack(AwesomeSauceComponents.dustGold, 2),
       "oreAluminum" -> new ItemStack(AwesomeSauceComponents.dustAluminum, 2),
@@ -56,6 +57,7 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
       "oreSilver" -> new ItemStack(AwesomeSauceComponents.dustSilver, 2),
       "wheat" -> new ItemStack(AwesomeSauceComponents.flour))
   }
+
   override def init() = {
     ingotAluminum = ItemUtil.makeItem(this, "ingotAluminum", true).addDescriptionLine(
       "awesomesaucecomponents.aluminum.desc")
@@ -130,8 +132,12 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotAwesomeite, 9), blockAwesomeite))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), ingotAwesomeite))
   }
+
   def getTabIconItem: () => Item = () => ingotAwesomeite
+
   def getTextureDomain: String = "awesomesaucecomponents"
+
   def getModName: String = "AwesomeSauceComponents"
+
   def getModID: String = "AwesomeSauceComponents"
 }
