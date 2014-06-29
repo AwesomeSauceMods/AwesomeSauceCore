@@ -65,12 +65,14 @@ trait TAwesomeSauceMod {
     config.load()
     if (hasTab)
       tab = new AwesomeSauceTab(getModID, getTabIconItem)
-    metadata.modId = getModID
-    metadata.name = getModName
-    metadata.version = getVersion
-    metadata.authorList.add(getAuthor)
-    metadata.description = getDescription
-    metadata.credits = getCredits
+    if (metadata != null) {
+      metadata.modId = getModID
+      metadata.name = getModName
+      metadata.version = getVersion
+      metadata.authorList.add(getAuthor)
+      metadata.description = getDescription
+      metadata.credits = getCredits
+    }
     preInit()
   }
 
