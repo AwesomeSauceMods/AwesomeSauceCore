@@ -2,7 +2,7 @@ package com.awesomesauce.minecraft.forge.core.components
 
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
 import com.awesomesauce.minecraft.forge.core.lib.util.ItemUtil
-import cpw.mods.fml.common.Mod
+import cpw.mods.fml.common.{ModMetadata, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import net.minecraft.block.Block
@@ -140,4 +140,6 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   def getModName: String = "AwesomeSauceComponents"
 
   def getModID: String = "AwesomeSauceComponents"
+  @Mod.Metadata("AwesomeSauceComponents")
+  var metadata : ModMetadata = null
 }

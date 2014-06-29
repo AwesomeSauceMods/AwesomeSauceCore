@@ -52,7 +52,7 @@ trait TAwesomeSauceMod {
   var hasTab = true
   var tab: CreativeTabs = null
   var config: Configuration = null
-  var metadata: ModMetadata = null
+  var metadata: ModMetadata
 
   def init()
 
@@ -65,11 +65,10 @@ trait TAwesomeSauceMod {
     config.load()
     if (hasTab)
       tab = new AwesomeSauceTab(getModID, getTabIconItem)
-    metadata = e.getModMetadata()
     metadata.modId = getModID
     metadata.name = getModName
     metadata.version = getVersion
-    metadata.authorList.add(getAuthor())
+    metadata.authorList.add(getAuthor)
     metadata.description = getDescription
     metadata.credits = getCredits
     preInit()
