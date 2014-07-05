@@ -32,18 +32,22 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   var ingotCopper: Item = null
   var ingotSilver: Item = null
   var ingotTin: Item = null
-  var ingotAwesomeite: Item = null
+  var ingotImpureAwesomeite: Item = null
+  var ingotPureAwesomeite: Item = null
   var dustCopper: Item = null
   var dustSilver: Item = null
   var dustTin: Item = null
   var dustBronze: Item = null
   var dustAluminum: Item = null
-  var dustAwesomeite: Item = null
+  var dustImpureAwesomeite: Item = null
+  var dustPureAwesomeite: Item = null
   var dustIron: Item = null
   var dustGold: Item = null
   var flour: Item = null
-  var nuggetAwesomeite: Item = null
-  var blockAwesomeite: Block = null
+  var nuggetImpureAwesomeite: Item = null
+  var blockImpureAwesomeite: Block = null
+  var nuggetPureAwesomeite: Item = null
+  var blockPureAwesomeite: Block = null
 
   override def preInit = {}
 
@@ -112,29 +116,47 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     OreDictionary.registerOre("flour", flour)
     OreDictionary.registerOre("dustWheat", flour)
     OreDictionary.registerOre("wheat", Items.wheat)
-
-    ingotAwesomeite = ItemUtil.makeItem(this, "ingotAwesomeite",
+    OreDictionary.registerOre("redstone", Items.redstone)
+    OreDictionary.registerOre("diamond", Items.diamond)
+    OreDictionary.registerOre("flint", Items.flint)
+    ingotImpureAwesomeite = ItemUtil.makeItem(this, "ingotImpureAwesomeite",
       true).addDescriptionLine(
         "awesomesaucecomponents.awesomeite.desc")
-    dustAwesomeite = ItemUtil.makeItem(this, "dustAwesomeite",
+    OreDictionary.registerOre("ingotAwesomeite", ingotImpureAwesomeite)
+    dustImpureAwesomeite = ItemUtil.makeItem(this, "dustImpureAwesomeite",
       true).addDescriptionLine(
         "awesomesaucecomponents.awesomeite.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustAwesomeite), new ItemStack(
-      ingotAwesomeite), 2F)
+    OreDictionary.registerOre("dustAwesomeite", dustImpureAwesomeite)
+    ItemUtil.addSmelting(this, new ItemStack(dustImpureAwesomeite), new ItemStack(
+      ingotImpureAwesomeite), 2F)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(
-      dustAwesomeite, 4), "dustBronze", "dustSilver", "dustAluminum",
-      "dustGold", "dustIron", Items.redstone, Items.redstone,
-      Items.redstone, Items.redstone))
-    nuggetAwesomeite = ItemUtil.makeItem(this, "nuggetAwesomeite", true)
+      dustImpureAwesomeite, 4), "dustBronze", "dustSilver", "dustAluminum",
+      "dustGold", "dustIron", "redstone", "redstone",
+      "redstone", "redstone"))
+    nuggetImpureAwesomeite = ItemUtil.makeItem(this, "nuggetImpureAwesomeite", true)
       .addDescriptionLine("awesomesaucecomponents.awesomeite.desc")
-    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetAwesomeite, 9), "ingotAwesomeite"))
-    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), nuggetAwesomeite))
-    blockAwesomeite = ItemUtil.makeBlock(this, "blockAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
-    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotAwesomeite, 9), "blockAwesomeite"))
-    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), ingotAwesomeite))
+    OreDictionary.registerOre("nuggetAwesomeite", nuggetImpureAwesomeite)
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetImpureAwesomeite, 9), "ingotImpureAwesomeite"))
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotImpureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "nuggetImpureAwesomeite"))
+    blockImpureAwesomeite = ItemUtil.makeBlock(this, "blockImpureAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotImpureAwesomeite, 9), "blockImpureAwesomeite"))
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockImpureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "ingotImpureAwesomeite"))
+    ingotPureAwesomeite = ItemUtil.makeItem(this, "ingotPureAwesomeite", true).addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
+    OreDictionary.registerOre("ingotAwesomeite", ingotPureAwesomeite)
+    dustPureAwesomeite = ItemUtil.makeItem(this, "dustPureAwesomeite", true).addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
+    ItemUtil.addSmelting(this, new ItemStack(dustPureAwesomeite), new ItemStack(ingotPureAwesomeite), 2F)
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustPureAwesomeite, 6), "dustImpureAwesomeite", "dustImpureAwesomeite", "dustImpureAwesomeite", "diamond", "flint"))
+    OreDictionary.registerOre("dustAwesomeite", dustPureAwesomeite)
+    nuggetPureAwesomeite = ItemUtil.makeItem(this, "nuggetPureAwesomeite", true)
+      .addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetPureAwesomeite, 9), "ingotPureAwesomeite"))
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotPureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "nuggetPureAwesomeite"))
+    blockPureAwesomeite = ItemUtil.makeBlock(this, "blockPureAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotPureAwesomeite, 9), "blockAwesomeite"))
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockPureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "ingotPureAwesomeite"))
   }
 
-  def getTabIconItem: () => Item = () => ingotAwesomeite
+  def getTabIconItem: () => Item = () => ingotPureAwesomeite
 
   def getTextureDomain: String = "awesomesaucecomponents"
 
