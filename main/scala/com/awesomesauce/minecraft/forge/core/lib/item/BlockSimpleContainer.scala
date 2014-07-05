@@ -13,12 +13,13 @@ class BlockSimpleContainer(mat: Material, tile: () => TileEntity, val extraIconC
   def getBlockIcon = blockIcon
 
   def getTheTextureName = getTextureName
-  override def getIcon(w: IBlockAccess, x:Int, y:Int, z:Int, side:Int):IIcon = {
-    val te = w.getTileEntity(x,y,z)
-    if (te.isInstanceOf[TCustomTexture])
-    {
+
+  override def getIcon(w: IBlockAccess, x: Int, y: Int, z: Int, side: Int): IIcon = {
+    val te = w.getTileEntity(x, y, z)
+    if (te.isInstanceOf[TCustomTexture]) {
       val texturer = te.asInstanceOf[TCustomTexture]
-      return textures(texturer.getTextureForSide(side))
+      if (texturer.getTextureForSide(side) != 0)
+        return textures(texturer.getTextureForSide(side))
     }
     return defaultTextures(side)
   }
