@@ -10,8 +10,8 @@ import net.minecraft.dispenser.{IPosition, PositionImpl}
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.stats.Achievement
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.ChatComponentText
@@ -189,12 +189,20 @@ object ItemUtil {
 
   def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String): ItemDescription = {
-    makeItem(mod, unlocalizedName, false)
+    makeItem(mod, unlocalizedName, false, 0)
   }
 
   def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, oredict: Boolean): ItemDescription = {
-    makeItem(mod, unlocalizedName, new ItemDescriptionImpl(), oredict).asInstanceOf[ItemDescription]
+               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
+    makeItem(mod, unlocalizedName, false, maxIconCount)
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
+    makeItem(mod, unlocalizedName, new ItemDescriptionImpl(maxIconCount), oredict).asInstanceOf[ItemDescription]
   }
 
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {

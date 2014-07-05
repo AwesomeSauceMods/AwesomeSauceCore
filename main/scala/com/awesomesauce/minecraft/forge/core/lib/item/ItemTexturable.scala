@@ -1,9 +1,20 @@
 package com.awesomesauce.minecraft.forge.core.lib.item
 
-import net.minecraft.item.Item
 import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.util.IIcon
 
 trait ItemTexturable extends Item {
+  val extraIconCount: Int
+  val textures = new Array[IIcon](extraIconCount + 1)
 	override def registerIcons(r:IIconRegister) = {
+    super.registerIcons(r)
+    for (i <- Range.inclusive(1, extraIconCount))
+      textures(i) = r.registerIcon(this.getIconString + "_" + i)
 	}
+
+  override def getIcon(stack: ItemStack, pass: Int): IIcon = {
+    if (stack.hasTagCompound() && stack.getTagCompound.hasKey("texture"))
+      return textures(stack.getTagCompound.getInteger("texture"))
+  }
 }

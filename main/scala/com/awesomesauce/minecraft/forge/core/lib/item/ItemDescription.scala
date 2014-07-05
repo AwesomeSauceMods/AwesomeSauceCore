@@ -1,14 +1,10 @@
 package com.awesomesauce.minecraft.forge.core.lib.item
 
-import net.minecraft.item.Item
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.mutable.Map
-import net.minecraft.util.EnumChatFormatting
-import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.StatCollector
-import net.minecraft.util.StringTranslate
-import cpw.mods.fml.common.registry.LanguageRegistry
+import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.util.{EnumChatFormatting, StatCollector}
+
+import scala.collection.mutable.{ArrayBuffer, Map}
 
 trait ItemDescription extends Item {
   val description = ArrayBuffer[String]();
@@ -49,6 +45,7 @@ trait ItemDescription extends Item {
     return this;
   }
 }
-class ItemDescriptionImpl extends Item with ItemDescription {
 
+class ItemDescriptionImpl(val maxIconCount: Int) extends Item with ItemDescription with ItemTexturable {
+  def this() = this(0)
 }
