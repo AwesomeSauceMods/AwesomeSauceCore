@@ -2,7 +2,6 @@ package com.awesomesauce.minecraft.forge.core.lib.item
 
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
-import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.IIcon
@@ -11,6 +10,9 @@ import net.minecraft.world.{IBlockAccess, World}
 class BlockSimpleContainer(mat: Material, tile: () => TileEntity, val extraIconCount: Int) extends BlockContainer(mat) with TCustomTexturedBlock {
   def this(mat: Material, tile: () => TileEntity) = this(mat, tile, 0)
 
+  def getBlockIcon = blockIcon
+
+  def getTheTextureName = getTextureName
   override def getIcon(w: IBlockAccess, x:Int, y:Int, z:Int, side:Int):IIcon = {
     val te = w.getTileEntity(x,y,z)
     if (te.isInstanceOf[TCustomTexture])

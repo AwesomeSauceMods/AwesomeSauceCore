@@ -5,4 +5,8 @@ import net.minecraft.block.material.Material
 
 class BlockSimple(mat:Material, val extraIconCount:Int) extends Block(mat) with TCustomTexturedBlock {
   def this(mat:Material) = this(mat, 0)
+
+  def getBlockIcon = this.blockIcon
+
+  def getTheTextureName = this.getTextureName
 }

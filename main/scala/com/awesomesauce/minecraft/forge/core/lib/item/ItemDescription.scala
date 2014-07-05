@@ -46,6 +46,10 @@ trait ItemDescription extends Item {
   }
 }
 
-class ItemDescriptionImpl(val maxIconCount: Int) extends Item with ItemDescription with ItemTexturable {
+class ItemDescriptionImpl(val extraIconCount: Int) extends Item with ItemDescription with ItemTexturable {
   def this() = this(0)
+
+  def getIconStr = this.getIconString
+
+  def getItemIcon = this.itemIcon
 }
