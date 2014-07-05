@@ -148,7 +148,11 @@ object ItemUtil {
                 unlocalizedName: String, mat: Material,
                 te: () => TileEntity, extraIconCount:Int): Block = {
     GameRegistry.registerTileEntity(te().getClass(), mod.getTextureDomain + "." + unlocalizedName);
-    return makeBlock(mod, unlocalizedName, new BlockSimpleContainer(mat, te, extraIconCount))
+    val b: BlockSimpleContainer = makeBlock(mod, unlocalizedName, new BlockSimpleContainer(mat, te, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt)).asInstanceOf[BlockSimpleContainer]
+    for (i <- Range(0, 6)) {
+      b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
+    }
+    return b
   }
 
 
@@ -156,14 +160,18 @@ object ItemUtil {
     return makeBlock(mod, unlocalizedName, mat, 0)
   }
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount:Int): Block = {
-    return makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount))
+    return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): Block = {
     return makeBlock(mod, unlocalizedName, mat, oredict, 0)
   }
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount:Int): Block = {
-    return makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount), oredict)
+    val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
+    for (i <- Range(0, 6)) {
+      b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
+    }
+    return b
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block): Block = {
