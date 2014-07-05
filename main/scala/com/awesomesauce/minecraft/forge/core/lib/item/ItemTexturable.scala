@@ -9,6 +9,7 @@ trait ItemTexturable extends Item {
   val textures = new Array[IIcon](extraIconCount + 1)
 	override def registerIcons(r:IIconRegister) = {
     super.registerIcons(r)
+    textures(0) = this.itemIcon
     for (i <- Range.inclusive(1, extraIconCount))
       textures(i) = r.registerIcon(this.getIconString + "_" + i)
 	}
@@ -16,5 +17,6 @@ trait ItemTexturable extends Item {
   override def getIcon(stack: ItemStack, pass: Int): IIcon = {
     if (stack.hasTagCompound() && stack.getTagCompound.hasKey("texture"))
       return textures(stack.getTagCompound.getInteger("texture"))
+    return textures(0)
   }
 }

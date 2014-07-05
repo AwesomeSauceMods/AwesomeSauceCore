@@ -167,10 +167,7 @@ object ItemUtil {
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block): Block = {
-    return makeBlock(mod, unlocalizedName, block, false, 0)
-  }
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block, extraIconCount:Int): Block = {
-    return makeBlock(mod, unlocalizedName, block, false, extraIconCount)
+    return makeBlock(mod, unlocalizedName, block, false)
   }
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
                 block: Block,
