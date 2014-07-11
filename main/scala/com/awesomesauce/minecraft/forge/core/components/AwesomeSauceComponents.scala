@@ -2,9 +2,9 @@ package com.awesomesauce.minecraft.forge.core.components
 
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
 import com.awesomesauce.minecraft.forge.core.lib.util.ItemUtil
-import cpw.mods.fml.common.{ModMetadata, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import cpw.mods.fml.common.{Mod, ModMetadata}
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.creativetab.CreativeTabs
@@ -48,6 +48,7 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   var blockImpureAwesomeite: Block = null
   var nuggetPureAwesomeite: Item = null
   var blockPureAwesomeite: Block = null
+  var awesomeCore: Block = null
 
   override def preInit = {}
 
@@ -154,6 +155,8 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     blockPureAwesomeite = ItemUtil.makeBlock(this, "blockPureAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotPureAwesomeite, 9), "blockAwesomeite"))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockPureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "ingotPureAwesomeite"))
+    awesomeCore = ItemUtil.makeBlock(this, "awesomeCore", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeCore), "xyx", "yyy", "xyx", Character.valueOf('x'), "ingotAwesomeite", Character.valueOf('y'), "redstone"))
   }
 
   def getTabIconItem: () => Item = () => ingotPureAwesomeite
@@ -163,7 +166,8 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   def getModName: String = "AwesomeSauceComponents"
 
   def getModID: String = "AwesomeSauceComponents"
+
   @Mod.Metadata("AwesomeSauceComponents")
-  var metadata :
+  var metadata:
   ModMetadata = null
 }
