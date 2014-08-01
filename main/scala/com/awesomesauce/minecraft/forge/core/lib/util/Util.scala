@@ -2,11 +2,9 @@ package com.awesomesauce.minecraft.forge.core.lib.util
 
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
 import com.awesomesauce.minecraft.forge.core.lib.item.{BlockSimple, BlockSimpleContainer, ItemDescription, ItemDescriptionImpl}
-import com.awesomesauce.minecraft.forge.core.lib.util.vec.SidePositionImpl
 import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
-import net.minecraft.dispenser.{IPosition, PositionImpl}
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.inventory.IInventory
@@ -14,7 +12,7 @@ import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.stats.Achievement
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ChatComponentText
+import net.minecraft.util.{ChatComponentText, ChunkCoordinates}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.common.util.ForgeDirection
 import net.minecraftforge.oredict.OreDictionary
@@ -36,27 +34,25 @@ object WorldUtil {
             world.setBlock(x, y, z, block);
   }
 
-  def scanForBlockOfType(w: IBlockAccess, loc: IPosition,
-                         block: Block): Array[PositionImpl] = {
-    val locations = scala.collection.mutable.Set[PositionImpl]();
+  def scanForBlockOfType(w: IBlockAccess, loc: ChunkCoordinates,
+                         block: Block): Array[ChunkCoordinates] = {
+    val locations = scala.collection.mutable.Set[ChunkCoordinates]()
     for (i <- ForgeDirection.values()) {
-      val l = new SidePositionImpl(loc, i)
-        .getOffsetPositionImpl();
-      if (w.getBlock(l.getX().asInstanceOf[Int], l.getY().asInstanceOf[Int], l.getZ().asInstanceOf[Int]) == block)
-        locations.add(l);
+      val l = new SideCoordinates(loc, i).getOffsetChunkCoordinates
+      if (w.getBlock(l.posX, l.posY, l.posZ) == block)
+        locations.add(l)
     }
     return locations.toArray
   }
 
-  def scanForBlockTileEntityInstanceOf[te](w: IBlockAccess, loc: IPosition): Array[PositionImpl] = {
-    val locations = scala.collection.mutable.Set[PositionImpl]();
+  def scanForBlockTileEntityInstanceOf[te](w: IBlockAccess, loc: ChunkCoordinates): Array[ChunkCoordinates] = {
+    val locations = scala.collection.mutable.Set[ChunkCoordinates]()
     for (i <- ForgeDirection.values()) {
-      val l = new SidePositionImpl(loc, i)
-        .getOffsetPositionImpl();
-      if (w.getTileEntity(l.getX().toInt, l.getY().toInt, l.getZ().toInt).isInstanceOf[te])
-        locations.add(l);
+      val l = new SideCoordinates(loc, i).getOffsetChunkCoordinates
+      if (w.getTileEntity(l.posX, l.posY, l.posZ).isInstanceOf[te])
+        locations.add(l)
     }
-    return locations.toArray;
+    return locations.toArray
   }
 }
 
@@ -144,30 +140,12 @@ object ItemUtil {
   def makeBlock(mod: TAwesomeSauceMod,
                 unlocalizedName: String, mat: Material,
                 te: () => TileEntity): Block = makeBlock(mod, unlocalizedName, mat, te, 0)
+
   def makeBlock(mod: TAwesomeSauceMod,
                 unlocalizedName: String, mat: Material,
-                te: () => TileEntity, extraIconCount:Int): Block = {
+                te: () => TileEntity, extraIconCount: Int): Block = {
     GameRegistry.registerTileEntity(te().getClass(), mod.getTextureDomain + "." + unlocalizedName);
     val b: BlockSimpleContainer = makeBlock(mod, unlocalizedName, new BlockSimpleContainer(mat, te, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt)).asInstanceOf[BlockSimpleContainer]
-    for (i <- Range(0, 6)) {
-      b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
-    }
-    return b
-  }
-
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material): Block = {
-    return makeBlock(mod, unlocalizedName, mat, 0)
-  }
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount:Int): Block = {
-    return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
-  }
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): Block = {
-    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
-  }
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount:Int): Block = {
-    val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
     for (i <- Range(0, 6)) {
       b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
     }
@@ -177,6 +155,27 @@ object ItemUtil {
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block): Block = {
     return makeBlock(mod, unlocalizedName, block, false)
   }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material): Block = {
+    return makeBlock(mod, unlocalizedName, mat, 0)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount: Int): Block = {
+    return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): Block = {
+    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): Block = {
+    val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
+    for (i <- Range(0, 6)) {
+      b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
+    }
+    return b
+  }
+
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
                 block: Block,
                 oredict: Boolean): Block = {
@@ -198,21 +197,10 @@ object ItemUtil {
   }
 
   def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
-    makeItem(mod, unlocalizedName, false, maxIconCount)
-  }
-
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
-
-  def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
     makeItem(mod, unlocalizedName, new ItemDescriptionImpl(maxIconCount), oredict).asInstanceOf[ItemDescription]
   }
 
-  def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {
-    makeItem(mod, unlocalizedName, item, false);
-  }
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String,
                item: Item,
                oredict: Boolean): Item = {
@@ -228,6 +216,18 @@ object ItemUtil {
       return item;
     }
     return Items.iron_ingot
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
+    makeItem(mod, unlocalizedName, false, maxIconCount)
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
+
+  def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {
+    makeItem(mod, unlocalizedName, item, false);
   }
 
 }
