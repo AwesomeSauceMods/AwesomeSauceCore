@@ -4,13 +4,13 @@ import net.minecraftforge.fluids.{FluidStack, FluidTank}
 
 class MultiFluidTank(tankAmount: Int, tankStorage: Int) {
   val fluidTanks = scala.collection.mutable.Set[FluidTank]()
-  for (i <- Range(tankAmount)) {
+  for (i <- Range(0, tankAmount)) {
     fluidTanks.add(new FluidTank(tankStorage))
   }
 
   def insertFluid(fluid: FluidStack, simulate: Boolean) = {
     var nfluid = fluid
-    for (tank <- machineTanks) {
+    for (tank <- fluidTanks) {
       nfluid = new FluidStack(nfluid.getFluid, tank.fill(nfluid, simulate))
     }
     nfluid
@@ -18,7 +18,7 @@ class MultiFluidTank(tankAmount: Int, tankStorage: Int) {
 
   def drainFluid(fluid: FluidStack, simulate: Boolean): FluidStack = {
     var nfluid = fluid
-    for (tank <- machineTanks) {
+    for (tank <- fluidTanks) {
       if (tank.getFluid.isFluidEqual(nfluid))
         nfluid = tank.drain(nfluid.amount, simulate)
     }
