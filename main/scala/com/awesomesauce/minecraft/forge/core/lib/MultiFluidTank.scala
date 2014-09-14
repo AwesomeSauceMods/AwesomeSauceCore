@@ -8,6 +8,7 @@ class MultiFluidTank(tankAmount: Int, tankStorage: Int) {
     fluidTanks.add(new FluidTank(tankStorage))
   }
 
+  //Comment
   def insertFluid(fluid: FluidStack, simulate: Boolean) = {
     var nfluid = fluid
     for (tank <- fluidTanks) {
