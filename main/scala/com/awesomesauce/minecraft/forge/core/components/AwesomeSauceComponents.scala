@@ -12,9 +12,25 @@ import net.minecraft.init.Items
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraftforge.oredict.{OreDictionary, ShapedOreRecipe, ShapelessOreRecipe}
 
-@Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala")
+@Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala", dependencies = "required:ThermalFoundation")
 object AwesomeSauceComponents extends TAwesomeSauceMod {
   var grinderRecipes: scala.collection.mutable.Map[String, ItemStack] = null
+  var ingotImpureAwesomeite: Item = null
+  var ingotPureAwesomeite: Item = null
+  var dustImpureAwesomeite: Item = null
+
+  noTab
+  tab = CreativeTabs.tabMaterials
+  var dustPureAwesomeite: Item = null
+  var flour: Item = null
+  var nuggetImpureAwesomeite: Item = null
+  var blockImpureAwesomeite: Block = null
+  var nuggetPureAwesomeite: Item = null
+  var blockPureAwesomeite: Block = null
+  var awesomeCore: Block = null
+  @Mod.Metadata("AwesomeSauceComponents")
+  var metadata:
+  ModMetadata = null
 
   @EventHandler
   def aspri(e: FMLPreInitializationEvent) = super.awesomesaucepreinit(e)
@@ -25,92 +41,39 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   @EventHandler
   def aspoi(e: FMLPostInitializationEvent) = super.awesomesaucepostinit(e)
 
-  noTab
-  tab = CreativeTabs.tabMaterials
-  var ingotAluminum: Item = null
-  var ingotBronze: Item = null
-  var ingotCopper: Item = null
-  var ingotSilver: Item = null
-  var ingotTin: Item = null
-  var ingotImpureAwesomeite: Item = null
-  var ingotPureAwesomeite: Item = null
-  var dustCopper: Item = null
-  var dustSilver: Item = null
-  var dustTin: Item = null
-  var dustBronze: Item = null
-  var dustAluminum: Item = null
-  var dustImpureAwesomeite: Item = null
-  var dustPureAwesomeite: Item = null
-  var dustIron: Item = null
-  var dustGold: Item = null
-  var flour: Item = null
-  var nuggetImpureAwesomeite: Item = null
-  var blockImpureAwesomeite: Block = null
-  var nuggetPureAwesomeite: Item = null
-  var blockPureAwesomeite: Block = null
-  var awesomeCore: Block = null
+  def ingotBronze = OreDictionary.getOres("ingotBronze").get(0).getItem
+
+  def ingotCopper = OreDictionary.getOres("ingotCopper").get(0).getItem
+
+  def ingotSilver = OreDictionary.getOres("ingotSilver").get(0).getItem
+
+  def ingotTin = OreDictionary.getOres("ingotTin").get(0).getItem
 
   override def preInit = {}
 
   override def postInit = {
     grinderRecipes = scala.collection.mutable.Map(
-      "oreIron" -> new ItemStack(AwesomeSauceComponents.dustIron, 2),
-      "oreGold" -> new ItemStack(AwesomeSauceComponents.dustGold, 2),
-      "oreAluminum" -> new ItemStack(AwesomeSauceComponents.dustAluminum, 2),
-      "oreTin" -> new ItemStack(AwesomeSauceComponents.dustTin, 2),
-      "oreCopper" -> new ItemStack(AwesomeSauceComponents.dustCopper, 2),
-      "oreSilver" -> new ItemStack(AwesomeSauceComponents.dustSilver, 2),
-      "wheat" -> new ItemStack(AwesomeSauceComponents.flour))
+      "oreIron" -> new ItemStack(dustIron, 2),
+      "oreGold" -> new ItemStack(dustGold, 2),
+      "oreTin" -> new ItemStack(dustTin, 2),
+      "oreCopper" -> new ItemStack(dustCopper, 2),
+      "oreSilver" -> new ItemStack(dustSilver, 2),
+      "wheat" -> new ItemStack(flour))
   }
 
+  def dustCopper = OreDictionary.getOres("dustCopper").get(0).getItem
+
+  def dustSilver = OreDictionary.getOres("dustSilver").get(0).getItem
+
+  def dustTin = OreDictionary.getOres("dustTin").get(0).getItem
+
+  def dustIron = OreDictionary.getOres("dustIron").get(0).getItem
+
+  def dustGold = OreDictionary.getOres("dustGold").get(0).getItem
+
   override def init() = {
-    ingotAluminum = ItemUtil.makeItem(this, "ingotAluminum", true).addDescriptionLine(
-      "awesomesaucecomponents.aluminum.desc")
-    ingotBronze = ItemUtil.makeItem(this, "ingotBronze",
-      true).addDescriptionLine(
-        "awesomesaucecomponents.bronze.desc")
-    ingotCopper = ItemUtil.makeItem(this, "ingotCopper",
-      true).addDescriptionLine(
-        "awesomesaucecomponents.copper.desc")
-    ingotSilver = ItemUtil.makeItem(this, "ingotSilver",
-      true).addDescriptionLine(
-        "awesomesaucecomponents.silver.desc")
-    ingotTin = ItemUtil.makeItem(this, "ingotTin", true)
-      .addDescriptionLine(
-        "awesomesaucecomponents.tin.desc")
-
-    dustCopper = ItemUtil.makeItem(this, "dustCopper", true)
-      .addDescriptionLine("awesomesaucecomponents.copper.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustCopper), new ItemStack(ingotCopper),
-      2F)
-
-    dustSilver = ItemUtil.makeItem(this, "dustSilver", true)
-      .addDescriptionLine("awesomesaucecomponents.silver.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustSilver), new ItemStack(ingotSilver),
-      2F)
-    dustTin = ItemUtil.makeItem(this, "dustTin", true)
-      .addDescriptionLine("awesomesaucecomponents.tin.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustTin), new ItemStack(ingotTin), 2F)
-
-    dustAluminum = ItemUtil.makeItem(this, "dustAluminum", true)
-      .addDescriptionLine(
-        "awesomesaucecomponents.aluminum.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustAluminum), new ItemStack(ingotAluminum), 2F)
-
-    dustBronze = ItemUtil.makeItem(this, "dustBronze", true)
-      .addDescriptionLine("awesomesaucecomponents.bronze.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustBronze), new ItemStack(ingotBronze), 2F)
-
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustBronze,
       2), "dustCopper", "dustCopper", "dustTin"))
-    dustIron = ItemUtil.makeItem(this, "dustIron", true)
-      .addDescriptionLine("awesomesaucecomponents.iron.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustIron),
-      new ItemStack(Items.iron_ingot), 2F)
-    dustGold = ItemUtil.makeItem(this, "dustGold", true)
-      .addDescriptionLine("awesomesaucecomponents.gold.desc")
-    ItemUtil.addSmelting(this, new ItemStack(dustGold),
-      new ItemStack(Items.gold_ingot), 2F)
     flour = ItemUtil.makeItem(this, "flour", true)
       .addDescriptionLine("awesomesaucecomponents.flour.desc").addUsage("Smelting", "Smelted into bread.")
     ItemUtil.addSmelting(this, new ItemStack(flour), new ItemStack(Items.bread), 2.0F)
@@ -131,9 +94,8 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     ItemUtil.addSmelting(this, new ItemStack(dustImpureAwesomeite), new ItemStack(
       ingotImpureAwesomeite), 2F)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(
-      dustImpureAwesomeite, 4), "dustBronze", "dustSilver", "dustAluminum",
-      "dustGold", "dustIron", "redstone", "redstone",
-      "redstone", "redstone"))
+      dustImpureAwesomeite, 4), "dustBronze", "dustElectrum", "dustInvar", "dustLead", "dustNickel",
+      "redstone", "redstone", "redstone", "redstone"))
     nuggetImpureAwesomeite = ItemUtil.makeItem(this, "nuggetImpureAwesomeite", true)
       .addDescriptionLine("awesomesaucecomponents.awesomeite.desc")
     OreDictionary.registerOre("nuggetAwesomeite", nuggetImpureAwesomeite)
@@ -159,6 +121,8 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeCore), "xyx", "yyy", "xyx", Character.valueOf('x'), "ingotAwesomeite", Character.valueOf('y'), "redstone"))
   }
 
+  def dustBronze = OreDictionary.getOres("dustBronze").get(0).getItem
+
   def getTabIconItem: () => Item = () => ingotPureAwesomeite
 
   def getTextureDomain: String = "awesomesaucecomponents"
@@ -166,8 +130,4 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   def getModName: String = "AwesomeSauceComponents"
 
   def getModID: String = "AwesomeSauceComponents"
-
-  @Mod.Metadata("AwesomeSauceComponents")
-  var metadata:
-  ModMetadata = null
 }
