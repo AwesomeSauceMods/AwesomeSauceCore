@@ -4,6 +4,7 @@ import cpw.mods.fml.common.ModMetadata
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.config.Configuration
 
 /*
@@ -73,6 +74,7 @@ trait TAwesomeSauceMod {
       metadata.description = getDescription
       metadata.credits = getCredits
     }
+    MinecraftForge.EVENT_BUS.register(this)
     preInit()
   }
 
