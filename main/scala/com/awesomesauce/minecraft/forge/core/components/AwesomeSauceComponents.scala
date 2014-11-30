@@ -72,8 +72,6 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   def dustGold = OreDictionary.getOres("dustGold").get(0).getItem
 
   override def init() = {
-    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustBronze,
-      2), "dustCopper", "dustCopper", "dustTin"))
     flour = ItemUtil.makeItem(this, "flour", true)
       .addDescriptionLine("awesomesaucecomponents.flour.desc").addUsage("Smelting", "Smelted into bread.")
     ItemUtil.addSmelting(this, new ItemStack(flour), new ItemStack(Items.bread), 2.0F)
@@ -120,8 +118,6 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     awesomeCore = ItemUtil.makeBlock(this, "awesomeCore", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeCore), "xyx", "yyy", "xyx", Character.valueOf('x'), "ingotAwesomeite", Character.valueOf('y'), "redstone"))
   }
-
-  def dustBronze = OreDictionary.getOres("dustBronze").get(0).getItem
 
   def getTabIconItem: () => Item = () => ingotPureAwesomeite
 
