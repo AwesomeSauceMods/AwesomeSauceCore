@@ -119,6 +119,8 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeCore), "xyx", "yyy", "xyx", Character.valueOf('x'), "ingotAwesomeite", Character.valueOf('y'), "redstone"))
   }
 
+  def dustBronze = OreDictionary.getOres("dustBronze").get(0).getItem
+
   def getTabIconItem: () => Item = () => ingotPureAwesomeite
 
   def getTextureDomain: String = "awesomesaucecomponents"
