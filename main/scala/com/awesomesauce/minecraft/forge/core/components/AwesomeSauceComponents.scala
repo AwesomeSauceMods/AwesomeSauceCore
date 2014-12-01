@@ -90,8 +90,8 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     OreDictionary.registerOre("dustAwesomeite", dustImpureAwesomeite)
     ItemUtil.addSmelting(this, new ItemStack(dustImpureAwesomeite), new ItemStack(
       ingotImpureAwesomeite), 2F)
-    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(
-      dustImpureAwesomeite, 4), "dustBronze", "dustElectrum", "dustInvar", "dustLead", "dustNickel",
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 6),
+      "dustBronze", "dustElectrum", "dustInvar", "dustLead",
       "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone"))
     nuggetImpureAwesomeite = ItemUtil.makeItem(this, "nuggetImpureAwesomeite", true)
       .addDescriptionLine("awesomesaucecomponents.awesomeite.desc")
