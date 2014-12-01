@@ -28,6 +28,7 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   var nuggetPureAwesomeite: Item = null
   var blockPureAwesomeite: Block = null
   var awesomeCore: Block = null
+  var awesomeiteHammer: Item = null
   @Mod.Metadata("AwesomeSauceComponents")
   var metadata:
   ModMetadata = null
@@ -101,6 +102,10 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     blockImpureAwesomeite = ItemUtil.makeBlock(this, "blockImpureAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotImpureAwesomeite, 9), "blockImpureAwesomeite"))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockImpureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "ingotImpureAwesomeite"))
+    awesomeiteHammer = ItemUtil.makeItem(this, "awesomeiteHammer", true).addDescriptionLine("awesomesaucecomponents.awesomeiteHammer.desc")
+    ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeiteHammer), "xx", "yx", Character.valueOf('x'), "nuggetAwesomeite", Character.valueOf('y'), "stickWood"))
+    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 6), "ingotBronze", "ingotElectrum", "ingotInvar", "ingotLead",
+      "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone", "awesomeiteHammer"))
     ingotPureAwesomeite = ItemUtil.makeItem(this, "ingotPureAwesomeite", true).addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
     OreDictionary.registerOre("ingotAwesomeite", ingotPureAwesomeite)
     dustPureAwesomeite = ItemUtil.makeItem(this, "dustPureAwesomeite", true).addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
