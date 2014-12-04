@@ -1,6 +1,7 @@
 package com.awesomesauce.minecraft.forge.core.components
 
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
+import com.awesomesauce.minecraft.forge.core.lib.item.Description
 import com.awesomesauce.minecraft.forge.core.lib.util.ItemUtil
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
@@ -74,7 +75,7 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
 
   override def init() = {
     flour = ItemUtil.makeItem(this, "flour", true)
-      .addDescriptionLine("awesomesaucecomponents.flour.desc").addUsage("Smelting", "Smelted into bread.")
+    flour.asInstanceOf[Description].addDescriptionLine("awesomesaucecomponents.flour.desc").addUsage("Smelting", "Smelted into bread.")
     ItemUtil.addSmelting(this, new ItemStack(flour), new ItemStack(Items.bread), 2.0F)
     OreDictionary.registerOre("flour", flour)
     OreDictionary.registerOre("dustWheat", flour)
@@ -82,11 +83,13 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     OreDictionary.registerOre("diamond", Items.diamond)
     OreDictionary.registerOre("flint", Items.flint)
     ingotImpureAwesomeite = ItemUtil.makeItem(this, "ingotImpureAwesomeite",
-      true).addDescriptionLine(
+      true)
+    ingotImpureAwesomeite.asInstanceOf[Description].addDescriptionLine(
         "awesomesaucecomponents.awesomeite.desc")
     OreDictionary.registerOre("ingotAwesomeite", ingotImpureAwesomeite)
     dustImpureAwesomeite = ItemUtil.makeItem(this, "dustImpureAwesomeite",
-      true).addDescriptionLine(
+      true)
+    dustImpureAwesomeite.asInstanceOf[Description].addDescriptionLine(
         "awesomesaucecomponents.awesomeite.desc")
     OreDictionary.registerOre("dustAwesomeite", dustImpureAwesomeite)
     ItemUtil.addSmelting(this, new ItemStack(dustImpureAwesomeite), new ItemStack(
@@ -95,25 +98,28 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
       "dustBronze", "dustElectrum", "dustInvar", "dustLead",
       "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone"))
     nuggetImpureAwesomeite = ItemUtil.makeItem(this, "nuggetImpureAwesomeite", true)
-      .addDescriptionLine("awesomesaucecomponents.awesomeite.desc")
+    nuggetImpureAwesomeite.asInstanceOf[Description].addDescriptionLine("awesomesaucecomponents.awesomeite.desc")
     OreDictionary.registerOre("nuggetAwesomeite", nuggetImpureAwesomeite)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetImpureAwesomeite, 9), "ingotImpureAwesomeite"))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotImpureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "nuggetImpureAwesomeite"))
     blockImpureAwesomeite = ItemUtil.makeBlock(this, "blockImpureAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(ingotImpureAwesomeite, 9), "blockImpureAwesomeite"))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockImpureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "ingotImpureAwesomeite"))
-    awesomeiteHammer = ItemUtil.makeItem(this, "awesomeiteHammer", true).addDescriptionLine("awesomesaucecomponents.awesomeiteHammer.desc")
+    awesomeiteHammer = ItemUtil.makeItem(this, "awesomeiteHammer", true)
+    awesomeiteHammer.asInstanceOf[Description].addDescriptionLine("awesomesaucecomponents.awesomeiteHammer.desc")
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeiteHammer), "xx", "yx", Character.valueOf('x'), "nuggetAwesomeite", Character.valueOf('y'), "stickWood"))
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 6), "ingotBronze", "ingotElectrum", "ingotInvar", "ingotLead",
       "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone", "awesomeiteHammer"))
-    ingotPureAwesomeite = ItemUtil.makeItem(this, "ingotPureAwesomeite", true).addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
+    ingotPureAwesomeite = ItemUtil.makeItem(this, "ingotPureAwesomeite", true)
+    ingotPureAwesomeite.asInstanceOf[Description].addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
     OreDictionary.registerOre("ingotAwesomeite", ingotPureAwesomeite)
-    dustPureAwesomeite = ItemUtil.makeItem(this, "dustPureAwesomeite", true).addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
+    dustPureAwesomeite = ItemUtil.makeItem(this, "dustPureAwesomeite", true)
+    dustPureAwesomeite.asInstanceOf[Description].addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
     ItemUtil.addSmelting(this, new ItemStack(dustPureAwesomeite), new ItemStack(ingotPureAwesomeite), 2F)
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustPureAwesomeite, 6), "dustImpureAwesomeite", "dustImpureAwesomeite", "dustImpureAwesomeite", "diamond", "flint"))
     OreDictionary.registerOre("dustAwesomeite", dustPureAwesomeite)
     nuggetPureAwesomeite = ItemUtil.makeItem(this, "nuggetPureAwesomeite", true)
-      .addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
+    nuggetPureAwesomeite.asInstanceOf[Description].addDescriptionLine("awesomesaucecomponents.awesomeite.desc").addDescriptionLine("awesomesaucecomponents.pureAwesomeite.desc")
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetPureAwesomeite, 9), "ingotPureAwesomeite"))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotPureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "nuggetPureAwesomeite"))
     blockPureAwesomeite = ItemUtil.makeBlock(this, "blockPureAwesomeite", Material.iron, true).setCreativeTab(CreativeTabs.tabBlock)
