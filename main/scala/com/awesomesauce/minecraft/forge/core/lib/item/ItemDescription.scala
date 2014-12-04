@@ -44,7 +44,7 @@ trait Description {
     this
   }
 
-  def setShowUsage(hi: Boolean): ItemDescription = {
+  def setShowUsage(hi: Boolean): Description = {
     showUsage = hi;
     return this;
   }
