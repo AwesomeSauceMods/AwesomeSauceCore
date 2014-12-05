@@ -179,10 +179,6 @@ object ItemUtil {
     return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
   }
 
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
-    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
-  }
-
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): BlockDescription = {
     val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
     for (i <- Range(0, 6)) {
@@ -191,14 +187,23 @@ object ItemUtil {
     return b
   }
 
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
+    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
+  }
+
   def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String): ItemDescription = {
     makeItem(mod, unlocalizedName, false, 0)
   }
 
   def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
+    makeItem(mod, unlocalizedName, false, maxIconCount)
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
-    makeItem(mod, unlocalizedName, new ItemDescriptionImpl(maxIconCount), oredict).asInstanceOf[ItemDescription]
+    makeItem(mod, unlocalizedName, new ItemSimple(maxIconCount), oredict).asInstanceOf[ItemDescription]
   }
 
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String,
@@ -216,11 +221,6 @@ object ItemUtil {
       return item;
     }
     return Items.iron_ingot
-  }
-
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
-    makeItem(mod, unlocalizedName, false, maxIconCount)
   }
 
   def makeItem(mod: TAwesomeSauceMod,

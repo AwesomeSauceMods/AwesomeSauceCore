@@ -4,11 +4,11 @@ import net.minecraft.block.Block
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{EnumChatFormatting, StatCollector}
 
-import scala.collection.mutable.{ArrayBuffer, Map}
+import scala.collection.mutable.ArrayBuffer
 
 trait Description {
   val description = ArrayBuffer[String]()
-  val usage = Map[String, String]("Crafting" -> "Nothing Special")
+  val usage = scala.collection.mutable.Map[String, String]("Crafting" -> "Nothing Special")
   var showUsage = false
   var indevt: Boolean = false
 
@@ -18,7 +18,8 @@ trait Description {
   }
 
   def indev: Description = {
-    indevt = true; this
+    indevt = true
+    this
   }
 
   def doTooltip(stack: ItemStack, list: java.util.List[String]) {
@@ -26,7 +27,7 @@ trait Description {
     if (indevt) par3List.add(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + StatCollector.translateToLocal("awesomesauce.indev"))
     description.foreach(a => par3List.add(EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + StatCollector.translateToLocal(a)))
     if (!showUsage)
-      return;
+      return
     /*
 		 * if () {
 		 * par3List.add("Press "+EnumChatFormatting.GREEN+""+EnumChatFormatting
@@ -45,8 +46,8 @@ trait Description {
   }
 
   def setShowUsage(hi: Boolean): Description = {
-    showUsage = hi;
-    return this;
+    showUsage = hi
+    this
   }
 }
 
@@ -58,7 +59,7 @@ trait BlockDescription extends Block with Description {
 
 }
 
-class ItemDescriptionImpl(val extraIconCount: Int) extends Item with ItemDescription with ItemTexturable {
+class ItemSimple(val extraIconCount: Int) extends Item with ItemDescription with ItemTexturable {
   def this() = this(0)
 
   def getIconStr = this.getIconString
