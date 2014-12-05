@@ -58,7 +58,7 @@ trait BlockDescription extends Block with Description {
 
 }
 
-class ItemDescriptionImpl(val extraIconCount: Int) extends Item with Description with ItemTexturable {
+class ItemDescriptionImpl(val extraIconCount: Int) extends Item with ItemDescription with ItemTexturable {
   def this() = this(0)
 
   def getIconStr = this.getIconString
