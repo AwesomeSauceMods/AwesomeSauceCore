@@ -1,13 +1,17 @@
 package com.awesomesauce.minecraft.forge.core.lib.item
 
+import java.util
+
+import cofh.api.block.IDismantleable
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.IIcon
 import net.minecraft.world.{IBlockAccess, World}
 
-class BlockSimpleContainer(mat: Material, tile: () => TileEntity, val extraIconCount: Int) extends BlockContainer(mat) with TCustomTexturedBlock {
+class BlockSimpleContainer(mat: Material, tile: () => TileEntity, val extraIconCount: Int) extends BlockContainer(mat) with TCustomTexturedBlock with BlockDescription with IDismantleable {
   def this(mat: Material, tile: () => TileEntity) = this(mat, tile, 0)
 
   def getBlockIcon = blockIcon
@@ -55,4 +59,18 @@ class BlockSimpleContainer(mat: Material, tile: () => TileEntity, val extraIconC
   }
 
   override def canProvidePower() = true
+
+  def dismantleBlock(player: EntityPlayer, world: World, x: Int, y: Int, z: Int, returnDrops: Boolean): util.ArrayList[ItemStack] = {
+    if (world.getTileEntity(x, y, z).isInstanceOf[DismantleableTile]) {
+      world.getTileEntity(x, y, z).asInstanceOf[DismantleableTile].dismantleTile(player, returnDrops)
+    }
+    else new util.ArrayList[ItemStack]
+  }
+
+  def canDismantle(player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Boolean = {
+    if (world.getTileEntity(x, y, z).isInstanceOf[DismantleableTile]) {
+      world.getTileEntity(x, y, z).asInstanceOf[DismantleableTile].canDismantle(player)
+    }
+    else false
+  }
 }

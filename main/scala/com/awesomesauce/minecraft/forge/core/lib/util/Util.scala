@@ -1,7 +1,7 @@
 package com.awesomesauce.minecraft.forge.core.lib.util
 
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
-import com.awesomesauce.minecraft.forge.core.lib.item.{BlockSimple, BlockSimpleContainer, ItemDescription, ItemDescriptionImpl}
+import com.awesomesauce.minecraft.forge.core.lib.item._
 import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
@@ -139,11 +139,11 @@ object ItemUtil {
 
   def makeBlock(mod: TAwesomeSauceMod,
                 unlocalizedName: String, mat: Material,
-                te: () => TileEntity): Block = makeBlock(mod, unlocalizedName, mat, te, 0)
+                te: () => TileEntity): BlockDescription = makeBlock(mod, unlocalizedName, mat, te, 0)
 
   def makeBlock(mod: TAwesomeSauceMod,
                 unlocalizedName: String, mat: Material,
-                te: () => TileEntity, extraIconCount: Int): Block = {
+                te: () => TileEntity, extraIconCount: Int): BlockDescription = {
     GameRegistry.registerTileEntity(te().getClass(), mod.getTextureDomain + "." + unlocalizedName);
     val b: BlockSimpleContainer = makeBlock(mod, unlocalizedName, new BlockSimpleContainer(mat, te, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt)).asInstanceOf[BlockSimpleContainer]
     for (i <- Range(0, 6)) {
@@ -154,26 +154,6 @@ object ItemUtil {
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block): Block = {
     return makeBlock(mod, unlocalizedName, block, false)
-  }
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material): Block = {
-    return makeBlock(mod, unlocalizedName, mat, 0)
-  }
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount: Int): Block = {
-    return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
-  }
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): Block = {
-    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
-  }
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): Block = {
-    val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
-    for (i <- Range(0, 6)) {
-      b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
-    }
-    return b
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
@@ -189,6 +169,26 @@ object ItemUtil {
       return block;
     }
     return Blocks.iron_block
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material): BlockDescription = {
+    return makeBlock(mod, unlocalizedName, mat, 0)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount: Int): BlockDescription = {
+    return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
+    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): BlockDescription = {
+    val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
+    for (i <- Range(0, 6)) {
+      b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
+    }
+    return b
   }
 
   def makeItem(mod: TAwesomeSauceMod,
