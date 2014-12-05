@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.IIcon
 import net.minecraft.world.{IBlockAccess, World}
 
-class BlockSimpleContainer(mat: Material, tile: () => TileEntity, val extraIconCount: Int) extends BlockContainer(mat) with TCustomTexturedBlock with BlockDescription with IDismantleable {
+class BlockSimpleContainer(mat: Material, val tile: () => TileEntity, val extraIconCount: Int) extends BlockContainer(mat) with TCustomTexturedBlock with BlockDescription with IDismantleable {
   def this(mat: Material, tile: () => TileEntity) = this(mat, tile, 0)
 
   def getBlockIcon = blockIcon
