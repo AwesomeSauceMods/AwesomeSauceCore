@@ -164,10 +164,6 @@ object ItemUtil {
     return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
   }
 
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
-    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
-  }
-
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): BlockDescription = {
     val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
     for (i <- Range(0, 6)) {
@@ -193,16 +189,8 @@ object ItemUtil {
     return Blocks.iron_block
   }
 
-  def addDescriptions(mod: TAwesomeSauceMod, unlocalizedName: String, description: Description) = {
-    addDescription(mod, unlocalizedName, description)
-  }
-
-  def addDescription(mod: TAwesomeSauceMod, descName: String, description: Description): Description = {
-    var d = 0
-    while (StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d) != StatCollector.translateToLocal(mod.getTextureDomain + "." + unlocalizedName + ".desc." + d)) {
-      description.addDescriptionLine(mod.getTextureDomain + "." + descName + ".desc." + d)
-      d += 1
-    }
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
+    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
   }
 
   def makeItem(mod: TAwesomeSauceMod,
@@ -241,6 +229,19 @@ object ItemUtil {
       return item;
     }
     return Items.iron_ingot
+  }
+
+  def addDescriptions(mod: TAwesomeSauceMod, unlocalizedName: String, description: Description) = {
+    addDescription(mod, unlocalizedName, description)
+  }
+
+  def addDescription(mod: TAwesomeSauceMod, descName: String, description: Description): Description = {
+    var d = 0
+    while (StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d) != StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d)) {
+      description.addDescriptionLine(mod.getTextureDomain + "." + descName + ".desc." + d)
+      d += 1
+    }
+    description
   }
 
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {
