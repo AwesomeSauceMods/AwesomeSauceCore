@@ -11,7 +11,7 @@ item.awesomesaucecomponents.flour.name=Flour
 item.awesomesaucecomponents.awesomeiteHammer.name=Awesomeite Hammer
 itemGroup.AwesomeSauceComponents=Awesome Sauce Components
 
-awesomesaucecomponents.awesomeite.desc=The most awesome metal in the universe
-awesomesaucecomponents.pureAwesomeite.desc=This one is completely pure, it's almost magic.
-awesomesaucecomponents.flour.desc=Wheat Flour. Smelt it into bread.
-awesomesaucecomponents.awesomeiteHammer.desc=A fragile hammer, it breaks after one use.
+awesomesaucecomponents.awesomeite.desc.1=The most awesome metal in the universe
+awesomesaucecomponents.pureAwesomeite.desc.1=This one is completely pure, it's almost magic.
+awesomesaucecomponents.flour.desc.1=Wheat Flour. Smelt it into bread.
+awesomesaucecomponents.awesomeiteHammer.desc.1=A fragile hammer, it breaks after one use.

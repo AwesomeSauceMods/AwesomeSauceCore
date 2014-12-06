@@ -12,7 +12,7 @@ import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.stats.Achievement
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.{ChatComponentText, ChunkCoordinates}
+import net.minecraft.util.{ChatComponentText, ChunkCoordinates, StatCollector}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.common.util.ForgeDirection
 import net.minecraftforge.oredict.OreDictionary
@@ -156,27 +156,16 @@ object ItemUtil {
     return makeBlock(mod, unlocalizedName, block, false)
   }
 
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
-                block: Block,
-                oredict: Boolean): Block = {
-    if (mod.config.get("Disable Item", unlocalizedName, true).getBoolean(true)) {
-      block.setBlockName(mod.getTextureDomain concat "." concat unlocalizedName)
-        .setBlockTextureName(mod.getTextureDomain concat ":" concat unlocalizedName)
-        .setCreativeTab(mod.tab)
-      GameRegistry.registerBlock(block, unlocalizedName)
-      if (oredict)
-        OreDictionary.registerOre(unlocalizedName, block)
-      return block;
-    }
-    return Blocks.iron_block
-  }
-
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material): BlockDescription = {
     return makeBlock(mod, unlocalizedName, mat, 0)
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount: Int): BlockDescription = {
     return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
+  }
+
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
+    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): BlockDescription = {
@@ -187,8 +176,33 @@ object ItemUtil {
     return b
   }
 
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
-    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
+                block: Block,
+                oredict: Boolean): Block = {
+    if (mod.config.get("Disable Item", unlocalizedName, true).getBoolean(true)) {
+      block.setBlockName(mod.getTextureDomain concat "." concat unlocalizedName)
+        .setBlockTextureName(mod.getTextureDomain concat ":" concat unlocalizedName)
+        .setCreativeTab(mod.tab)
+      GameRegistry.registerBlock(block, unlocalizedName)
+      if (oredict)
+        OreDictionary.registerOre(unlocalizedName, block)
+      if (block.isInstanceOf[Description])
+        addDescriptions(mod, unlocalizedName, block.asInstanceOf[Description])
+      return block;
+    }
+    return Blocks.iron_block
+  }
+
+  def addDescriptions(mod: TAwesomeSauceMod, unlocalizedName: String, description: Description) = {
+    addDescription(mod, unlocalizedName, description)
+  }
+
+  def addDescription(mod: TAwesomeSauceMod, descName: String, description: Description): Description = {
+    var d = 0
+    while (StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d) != StatCollector.translateToLocal(mod.getTextureDomain + "." + unlocalizedName + ".desc." + d)) {
+      description.addDescriptionLine(mod.getTextureDomain + "." + descName + ".desc." + d)
+      d += 1
+    }
   }
 
   def makeItem(mod: TAwesomeSauceMod,
@@ -200,6 +214,9 @@ object ItemUtil {
                unlocalizedName: String, maxIconCount: Int): ItemDescription = {
     makeItem(mod, unlocalizedName, false, maxIconCount)
   }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
 
   def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
@@ -218,16 +235,15 @@ object ItemUtil {
       GameRegistry.registerItem(item, unlocalizedName);
       if (oredict)
         OreDictionary.registerOre(unlocalizedName, item);
+      if (item.isInstanceOf[Description]) {
+        addDescriptions(mod, unlocalizedName, item.asInstanceOf[Description])
+      }
       return item;
     }
     return Items.iron_ingot
   }
 
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
-
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {
     makeItem(mod, unlocalizedName, item, false);
   }
-
 }
