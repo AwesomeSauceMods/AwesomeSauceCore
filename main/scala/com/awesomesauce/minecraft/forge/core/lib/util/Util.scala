@@ -164,6 +164,10 @@ object ItemUtil {
     return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
   }
 
+  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
+    makeBlock(mod, unlocalizedName, mat, oredict, 0)
+  }
+
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean, extraIconCount: Int): BlockDescription = {
     val b: BlockSimple = makeBlock(mod, unlocalizedName, new BlockSimple(mat, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt), oredict).asInstanceOf[BlockSimple]
     for (i <- Range(0, 6)) {
@@ -186,49 +190,7 @@ object ItemUtil {
         addDescriptions(mod, unlocalizedName, block.asInstanceOf[Description])
       return block;
     }
-    return Blocks.iron_block
-  }
-
-  def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
-    return makeBlock(mod, unlocalizedName, mat, oredict, 0)
-  }
-
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String): ItemDescription = {
-    makeItem(mod, unlocalizedName, false, 0)
-  }
-
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
-    makeItem(mod, unlocalizedName, false, maxIconCount)
-  }
-
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
-
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
-    makeItem(mod, unlocalizedName, new ItemSimple(maxIconCount), oredict).asInstanceOf[ItemDescription]
-  }
-
-  def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String,
-               item: Item,
-               oredict: Boolean): Item = {
-    if (mod.config.get("Disable Item", unlocalizedName, true).getBoolean(true)) {
-      item
-        .setUnlocalizedName(mod.getTextureDomain + "." + unlocalizedName)
-        .setTextureName(
-          mod.getTextureDomain + ":" + unlocalizedName)
-        .setCreativeTab(mod.tab);
-      GameRegistry.registerItem(item, unlocalizedName);
-      if (oredict)
-        OreDictionary.registerOre(unlocalizedName, item);
-      if (item.isInstanceOf[Description]) {
-        addDescriptions(mod, unlocalizedName, item.asInstanceOf[Description])
-      }
-      return item;
-    }
-    return Items.iron_ingot
+    Blocks.iron_block
   }
 
   def addDescriptions(mod: TAwesomeSauceMod, unlocalizedName: String, description: Description) = {
@@ -244,7 +206,45 @@ object ItemUtil {
     description
   }
 
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String): ItemDescription = {
+    makeItem(mod, unlocalizedName, false, 0)
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, maxIconCount: Int): ItemDescription = {
+    makeItem(mod, unlocalizedName, false, maxIconCount)
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
+    makeItem(mod, unlocalizedName, new ItemSimple(maxIconCount), oredict).asInstanceOf[ItemDescription]
+  }
+
+  def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String,
+               item: Item,
+               oredict: Boolean): Item = {
+    if (mod.config.get("Disable Item", unlocalizedName, true).getBoolean(true)) {
+      item
+        .setUnlocalizedName(mod.getTextureDomain + "." + unlocalizedName)
+        .setTextureName(
+          mod.getTextureDomain + ":" + unlocalizedName)
+        .setCreativeTab(mod.tab)
+      GameRegistry.registerItem(item, unlocalizedName)
+      if (oredict)
+        OreDictionary.registerOre(unlocalizedName, item)
+      if (item.isInstanceOf[Description]) {
+        addDescriptions(mod, unlocalizedName, item.asInstanceOf[Description])
+      }
+      return item
+    }
+    Items.iron_ingot
+  }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
+
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {
-    makeItem(mod, unlocalizedName, item, false);
+    makeItem(mod, unlocalizedName, item, false)
   }
 }
