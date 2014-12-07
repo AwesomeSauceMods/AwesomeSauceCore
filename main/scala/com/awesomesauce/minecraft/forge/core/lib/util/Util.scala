@@ -193,19 +193,6 @@ object ItemUtil {
     Blocks.iron_block
   }
 
-  def addDescriptions(mod: TAwesomeSauceMod, unlocalizedName: String, description: Description) = {
-    addDescription(mod, unlocalizedName, description)
-  }
-
-  def addDescription(mod: TAwesomeSauceMod, descName: String, description: Description): Description = {
-    var d = 0
-    while (StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d) != StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d)) {
-      description.addDescriptionLine(mod.getTextureDomain + "." + descName + ".desc." + d)
-      d += 1
-    }
-    description
-  }
-
   def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String): ItemDescription = {
     makeItem(mod, unlocalizedName, false, 0)
@@ -215,6 +202,9 @@ object ItemUtil {
                unlocalizedName: String, maxIconCount: Int): ItemDescription = {
     makeItem(mod, unlocalizedName, false, maxIconCount)
   }
+
+  def makeItem(mod: TAwesomeSauceMod,
+               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
 
   def makeItem(mod: TAwesomeSauceMod,
                unlocalizedName: String, oredict: Boolean, maxIconCount: Int): ItemDescription = {
@@ -241,8 +231,18 @@ object ItemUtil {
     Items.iron_ingot
   }
 
-  def makeItem(mod: TAwesomeSauceMod,
-               unlocalizedName: String, oredict: Boolean): ItemDescription = makeItem(mod, unlocalizedName, oredict, 0)
+  def addDescriptions(mod: TAwesomeSauceMod, unlocalizedName: String, description: Description) = {
+    addDescription(mod, unlocalizedName, description)
+  }
+
+  def addDescription(mod: TAwesomeSauceMod, descName: String, description: Description): Description = {
+    var d = 0
+    while (StatCollector.translateToLocal(mod.getTextureDomain + "." + descName + ".desc." + d) != mod.getTextureDomain + "." + descName + ".desc." + d) {
+      description.addDescriptionLine(mod.getTextureDomain + "." + descName + ".desc." + d)
+      d += 1
+    }
+    description
+  }
 
   def makeItem(mod: TAwesomeSauceMod, unlocalizedName: String, item: Item): Item = {
     makeItem(mod, unlocalizedName, item, false)
