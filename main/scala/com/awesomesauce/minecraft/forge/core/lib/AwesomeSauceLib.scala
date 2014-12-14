@@ -16,6 +16,7 @@ object AwesomeSauceLib {
     MinecraftForge.EVENT_BUS.register(this)
   }
 
+  //
   @SubscribeEvent
   def tooltip(e: ItemTooltipEvent) = {
     val item = e.itemStack.getItem
