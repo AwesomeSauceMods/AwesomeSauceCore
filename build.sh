@@ -6,3 +6,4 @@ mv CoolInfoStuff/* build
 cd build
 rm -r OpenAutomation
 bash gradlew build
+#
