@@ -31,7 +31,7 @@ object WorldUtil {
       for (y <- my to oy)
         for (z <- mz to oz)
           if (world.getBlock(x, y, z) != veto)
-            world.setBlock(x, y, z, block);
+            world.setBlock(x, y, z, block)
   }
 
   def scanForBlockOfType(w: IBlockAccess, loc: ChunkCoordinates,
@@ -42,9 +42,8 @@ object WorldUtil {
       if (w.getBlock(l.posX, l.posY, l.posZ) == block)
         locations.add(l)
     }
-    return locations.toArray
+    locations.toArray
   }
-
   def scanForBlockTileEntityInstanceOf[te](w: IBlockAccess, loc: ChunkCoordinates): Array[ChunkCoordinates] = {
     val locations = scala.collection.mutable.Set[ChunkCoordinates]()
     for (i <- ForgeDirection.values()) {
@@ -52,7 +51,7 @@ object WorldUtil {
       if (w.getTileEntity(l.posX, l.posY, l.posZ).isInstanceOf[te])
         locations.add(l)
     }
-    return locations.toArray
+    locations.toArray
   }
 }
 
@@ -64,7 +63,7 @@ object PlayerUtil {
 
   def sendChatMessage(player: EntityPlayer, string: String) = {
     if (!player.worldObj.isRemote)
-      player.addChatComponentMessage(new ChatComponentText(string));
+      player.addChatComponentMessage(new ChatComponentText(string))
 
   }
 }
@@ -77,30 +76,30 @@ object InventoryUtil {
       if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).isItemEqual(stack) && inventory.getStackInSlot(i).stackSize >= stack.stackSize)
         return true
     }
-    return false
+    false
   }
 
   def addStackToInventory(inventory: IInventory, itemStack: ItemStack): Boolean = {
-    for (i: Int <- 0 to inventory.getSizeInventory()) {
+    for (i: Int <- 0 to inventory.getSizeInventory) {
       if (inventory.getStackInSlot(i) == null) {
         inventory.setInventorySlotContents(i, itemStack)
         return true
       }
       if (inventory.getStackInSlot(i).isItemEqual(itemStack))
-        if (inventory.getStackInSlot(i).stackSize + itemStack.stackSize <= inventory.getStackInSlot(i).getMaxStackSize()) {
-          inventory.getStackInSlot(i).stackSize += itemStack.stackSize;
+        if (inventory.getStackInSlot(i).stackSize + itemStack.stackSize <= inventory.getStackInSlot(i).getMaxStackSize) {
+          inventory.getStackInSlot(i).stackSize += itemStack.stackSize
           return true
-        } else if (inventory.getStackInSlot(i).stackSize == inventory.getStackInSlot(i).getMaxStackSize()) {
+        } else if (inventory.getStackInSlot(i).stackSize == inventory.getStackInSlot(i).getMaxStackSize) {
 
         } else {
-          val stackSize = inventory.getStackInSlot(i).stackSize + itemStack.stackSize - inventory.getStackInSlot(i).getMaxStackSize()
-          inventory.getStackInSlot(i).stackSize = inventory.getStackInSlot(i).getMaxStackSize()
+          val stackSize = inventory.getStackInSlot(i).stackSize + itemStack.stackSize - inventory.getStackInSlot(i).getMaxStackSize
+          inventory.getStackInSlot(i).stackSize = inventory.getStackInSlot(i).getMaxStackSize
           itemStack.stackSize = stackSize
           addStackToInventory(inventory, itemStack)
           return true
         }
     }
-    return false;
+    false
   }
 
   def addStackToSlotInInventory(inventory: IInventory, itemStack: ItemStack, slot: Int): Boolean = {
@@ -111,28 +110,28 @@ object InventoryUtil {
       return true
     }
     if (inventory.getStackInSlot(slot).isItemEqual(itemStack))
-      if (inventory.getStackInSlot(slot).stackSize + itemStack.stackSize <= inventory.getStackInSlot(slot).getMaxStackSize()) {
-        inventory.getStackInSlot(slot).stackSize += itemStack.stackSize;
+      if (inventory.getStackInSlot(slot).stackSize + itemStack.stackSize <= inventory.getStackInSlot(slot).getMaxStackSize) {
+        inventory.getStackInSlot(slot).stackSize += itemStack.stackSize
         return true
       } else {
-        val stackSize = inventory.getStackInSlot(slot).stackSize + itemStack.stackSize - inventory.getStackInSlot(slot).getMaxStackSize()
-        inventory.getStackInSlot(slot).stackSize = inventory.getStackInSlot(slot).getMaxStackSize()
+        val stackSize = inventory.getStackInSlot(slot).stackSize + itemStack.stackSize - inventory.getStackInSlot(slot).getMaxStackSize
+        inventory.getStackInSlot(slot).stackSize = inventory.getStackInSlot(slot).getMaxStackSize
         itemStack.stackSize = stackSize
         return addStackToInventory(inventory, itemStack)
       }
-    return false;
+    false
   }
 }
 
 object ItemUtil {
   def addSmelting(mod: TAwesomeSauceMod, item: ItemStack, result: ItemStack, exp: Float) = {
-    if (mod.config.get("Disable Recipes", result.getUnlocalizedName(), true).getBoolean(true)) {
+    if (mod.config.get("Disable Recipes", result.getUnlocalizedName, true).getBoolean(true)) {
       GameRegistry.addSmelting(item, result, exp)
     }
   }
 
   def addRecipe(mod: TAwesomeSauceMod, recipe: IRecipe) = {
-    if (mod.config.get("Disable Recipes", recipe.getRecipeOutput().getUnlocalizedName(), true).getBoolean(true)) {
+    if (mod.config.get("Disable Recipes", recipe.getRecipeOutput.getUnlocalizedName, true).getBoolean(true)) {
       GameRegistry.addRecipe(recipe)
     }
   }
@@ -144,24 +143,24 @@ object ItemUtil {
   def makeBlock(mod: TAwesomeSauceMod,
                 unlocalizedName: String, mat: Material,
                 te: () => TileEntity, extraIconCount: Int): BlockDescription = {
-    GameRegistry.registerTileEntity(te().getClass(), mod.getTextureDomain + "." + unlocalizedName);
+    GameRegistry.registerTileEntity(te().getClass, mod.getTextureDomain + "." + unlocalizedName)
     val b: BlockSimpleContainer = makeBlock(mod, unlocalizedName, new BlockSimpleContainer(mat, te, extraIconCount + mod.config.get("Block Texture Additions", unlocalizedName, 0).getInt)).asInstanceOf[BlockSimpleContainer]
     for (i <- Range(0, 6)) {
       b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
     }
-    return b
+    b
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, block: Block): Block = {
-    return makeBlock(mod, unlocalizedName, block, false)
+    makeBlock(mod, unlocalizedName, block, false)
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material): BlockDescription = {
-    return makeBlock(mod, unlocalizedName, mat, 0)
+    makeBlock(mod, unlocalizedName, mat, 0)
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, extraIconCount: Int): BlockDescription = {
-    return makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
+    makeBlock(mod, unlocalizedName, mat, false, extraIconCount)
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String, mat: Material, oredict: Boolean): BlockDescription = {
@@ -173,7 +172,7 @@ object ItemUtil {
     for (i <- Range(0, 6)) {
       b.setDefaultTextureForSide(i, mod.config.get("Block Texture Additions", unlocalizedName + "_side" + i, 0).getInt)
     }
-    return b
+    b
   }
 
   def makeBlock(mod: TAwesomeSauceMod, unlocalizedName: String,
@@ -188,7 +187,7 @@ object ItemUtil {
         OreDictionary.registerOre(unlocalizedName, block)
       if (block.isInstanceOf[Description])
         addDescriptions(mod, unlocalizedName, block.asInstanceOf[Description])
-      return block;
+      return block
     }
     Blocks.iron_block
   }
