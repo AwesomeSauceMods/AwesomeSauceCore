@@ -13,7 +13,7 @@ import net.minecraft.init.Items
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraftforge.oredict.{OreDictionary, ShapedOreRecipe, ShapelessOreRecipe}
 
-@Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala", dependencies = "required-after:ThermalFoundation")
+@Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala")
 object AwesomeSauceComponents extends TAwesomeSauceMod {
   var grinderRecipes: scala.collection.mutable.Map[String, ItemStack] = null
   var ingotImpureAwesomeite: Item = null
