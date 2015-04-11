@@ -43,35 +43,76 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
   @EventHandler
   def aspoi(e: FMLPostInitializationEvent) = super.awesomesaucepostinit(e)
 
-  def ingotBronze = OreDictionary.getOres("ingotBronze").get(0).getItem
+  def ingotBronze = try {
+    OreDictionary.getOres("ingotBronze").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def ingotCopper = OreDictionary.getOres("ingotCopper").get(0).getItem
+  def ingotCopper = try {
+    OreDictionary.getOres("ingotCopper").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def ingotSilver = OreDictionary.getOres("ingotSilver").get(0).getItem
+  def ingotSilver = try {
+    OreDictionary.getOres("ingotSilver").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def ingotTin = OreDictionary.getOres("ingotTin").get(0).getItem
+  def ingotTin = try {
+    OreDictionary.getOres("ingotTin").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
   override def preInit = {}
 
   override def postInit = {
-    grinderRecipes = scala.collection.mutable.Map(
-      "oreIron" -> new ItemStack(dustIron, 2),
-      "oreGold" -> new ItemStack(dustGold, 2),
-      "oreTin" -> new ItemStack(dustTin, 2),
-      "oreCopper" -> new ItemStack(dustCopper, 2),
-      "oreSilver" -> new ItemStack(dustSilver, 2),
-      "wheat" -> new ItemStack(flour))
+    try {
+      grinderRecipes = scala.collection.mutable.Map(
+        "oreIron" -> new ItemStack(dustIron, 2),
+        "oreGold" -> new ItemStack(dustGold, 2),
+        "oreTin" -> new ItemStack(dustTin, 2),
+        "oreCopper" -> new ItemStack(dustCopper, 2),
+        "oreSilver" -> new ItemStack(dustSilver, 2),
+        "wheat" -> new ItemStack(flour))
+    }
+    catch {
+      case e: Exception => {}
+    }
   }
 
-  def dustCopper = OreDictionary.getOres("dustCopper").get(0).getItem
+  def dustCopper = try {
+    OreDictionary.getOres("dustCopper").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def dustSilver = OreDictionary.getOres("dustSilver").get(0).getItem
+  def dustSilver = try {
+    OreDictionary.getOres("dustSilver").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def dustTin = OreDictionary.getOres("dustTin").get(0).getItem
+  def dustTin = try {
+    OreDictionary.getOres("dustTin").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def dustIron = OreDictionary.getOres("dustIron").get(0).getItem
+  def dustIron = try {
+    OreDictionary.getOres("dustIron").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
-  def dustGold = OreDictionary.getOres("dustGold").get(0).getItem
+  def dustGold = try {
+    OreDictionary.getOres("dustGold").get(0).getItem
+  } catch {
+    case e: Exception => null
+  }
 
   override def init() = {
     flour = ItemUtil.makeItem(this, "flour", true)
@@ -105,8 +146,16 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(blockImpureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "ingotImpureAwesomeite"))
     awesomeiteHammer = ItemUtil.makeItem(this, "awesomeiteHammer", true)
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(awesomeiteHammer), "xx", "yx", Character.valueOf('x'), "nuggetAwesomeite", Character.valueOf('y'), "stickWood"))
-    ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 6), "ingotBronze", "ingotElectrum", "ingotInvar", "ingotLead",
-      "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone", "awesomeiteHammer"))
+    if (OreDictionary.getOres("ingotBronze").size() > 0 && OreDictionary.getOres("ingotElectrum").size() > 0 && OreDictionary.getOres("ingotInvar").size() > 0 && OreDictionary.getOres("ingotLead").size() > 0) {
+      ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 6),
+        "dustBronze", "dustElectrum", "dustInvar", "dustLead",
+        "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone"))
+      ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 6), "ingotBronze", "ingotElectrum", "ingotInvar", "ingotLead",
+        "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone", "awesomeiteHammer"))
+    }
+    else {
+      ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustImpureAwesomeite, 2), "ingotIron", "ingotGold", "dustRedstone", "dustRedstone", "dustRedstone", "dustRedstone"))
+    }
     ingotPureAwesomeite = ItemUtil.makeItem(this, "ingotPureAwesomeite", true)
     ItemUtil.addDescription(this, "pureAwesomeite", ItemUtil.addDescription(this, "awesomeite", ingotPureAwesomeite.asInstanceOf[Description]))
     OreDictionary.registerOre("ingotAwesomeite", ingotPureAwesomeite)
