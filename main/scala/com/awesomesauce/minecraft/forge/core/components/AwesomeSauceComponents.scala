@@ -3,15 +3,6 @@ package com.awesomesauce.minecraft.forge.core.components
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
 import com.awesomesauce.minecraft.forge.core.lib.item.Description
 import com.awesomesauce.minecraft.forge.core.lib.util.ItemUtil
-import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
-import cpw.mods.fml.common.{Mod, ModMetadata}
-import net.minecraft.block.Block
-import net.minecraft.block.material.Material
-import net.minecraft.creativetab.CreativeTabs
-import net.minecraft.init.Items
-import net.minecraft.item.{Item, ItemStack}
-import net.minecraftforge.oredict.{OreDictionary, ShapedOreRecipe, ShapelessOreRecipe}
 
 @Mod(modid = "AwesomeSauceComponents", name = "AwesomeSauceComponents", version = "0.1.0", modLanguage = "scala")
 object AwesomeSauceComponents extends TAwesomeSauceMod {
@@ -165,6 +156,7 @@ object AwesomeSauceComponents extends TAwesomeSauceMod {
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(dustPureAwesomeite, 6), "dustImpureAwesomeite", "dustImpureAwesomeite", "dustImpureAwesomeite", "diamond", "flint"))
     OreDictionary.registerOre("dustAwesomeite", dustPureAwesomeite)
     nuggetPureAwesomeite = ItemUtil.makeItem(this, "nuggetPureAwesomeite", true)
+    OreDictionary.registerOre("nuggetAwesomeite", nuggetPureAwesomeite)
     ItemUtil.addDescription(this, "pureAwesomeite", ItemUtil.addDescription(this, "awesomeite", nuggetPureAwesomeite.asInstanceOf[Description]))
     ItemUtil.addRecipe(this, new ShapelessOreRecipe(new ItemStack(nuggetPureAwesomeite, 9), "ingotPureAwesomeite"))
     ItemUtil.addRecipe(this, new ShapedOreRecipe(new ItemStack(ingotPureAwesomeite), "xxx", "xxx", "xxx", Character.valueOf('x'), "nuggetPureAwesomeite"))
